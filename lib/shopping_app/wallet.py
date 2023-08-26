@@ -1,3 +1,6 @@
+
+from ownable import Ownable
+
 class Wallet:
 
     def __init__(self, owner):
