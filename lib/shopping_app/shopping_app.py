@@ -1,72 +1,64 @@
-from user import User
 from customer import Customer
+from item import Item
 from seller import Seller
+from wallet import __init__
 
-class Shopping:
+seller = Seller("DICストア")
+for i in range(10):
+    Item("CPU", 40830, seller)
+    Item("Memoria", 13880, seller)
+    Item("Tarjeta Madre", 28980, seller)
+    Item("Unidad de fuente de alimentación", 8980, seller)
+    Item("Caja de la computadora", 8727, seller)
+    Item("Disco duro de 3.5'", 10980, seller)
+    Item("SSD de 2,5 pulgadas", 13370, seller)
+    Item("M.2 SSD", 12980, seller)
+    Item("Cooler de CPU", 13400, seller)
+    Item("Tablero Gráfico", 23800, seller)
 
-    def __init__(self):
-        self.run_shopping()
+print("🤖 Porfavor dime tu nombre")
+customer = Customer(input())
 
-    def run_shopping(self):
-        seller = Seller("DICストア")
-        for i in range(10):
-            Item("CPU", 40830, seller)
-            Item("メモリー", 13880, seller)
-            Item("マザーボード", 28980, seller)
-            Item("電源ユニット", 8980, seller)
-            Item("PCケース", 8727, seller)
-            Item("3.5インチHDD", 10980, seller)
-            Item("2.5インチSSD", 13370, seller)
-            Item("M.2 SSD", 12980, seller)
-            Item("CPUクーラー", 13400, seller)
-            Item("グラフィックボード", 23800, seller)
+print("🏧 Por favor ingrese el monto a cargar en la billetera")
+customer.wallet.deposit(int(input()))
 
-        print("🤖 あなたの名前を教えてください")
-        customer = Customer(input())
+print("🛍️ Empieza a comprar")
+end_shopping = False
+while not end_shopping:
+    print("📜 Lista de Productos")
+    seller.show_items()
 
-        print("🏧 ウォレットにチャージする金額を入力してください")
-        customer.wallet.deposit(int(input()))
+    print("️️⛏ Por favor, ingrese el número del producto")
+    number = int(input())
 
-        print("🛍️ ショッピングを開始します")
-        end_shopping = False
-        while not end_shopping:
-            print("📜 商品リスト")
-            seller.show_items()
+    print("⛏ Por favor, ingrese la cantidad del producto")
+    quantity = int(input())
 
-            print("️️⛏ 商品番号を入力してください")
-            number = int(input())
+    items = seller.pick_items(number, quantity)
+    for item in items:
+        customer.cart.add(item)
+    print("🛒 Contenido del carrito")
+    customer.cart.show_items()
+    print(f"🤑 Cantidad Total: {customer.cart.total_amount()}")
 
-            print("⛏ 商品数量を入力してください")
-            quantity = int(input())
+    print("😭 Terminar de comprar?(yes/no)")
+    end_shopping = input() == "yes"
 
-            items = seller.pick_items(number, quantity)
-            for item in items:
-                customer.cart.add(item)
-            print("🛒 カートの中身")
-            customer.cart.show_items()
-            print(f"🤑 合計金額: {customer.cart.total_amount()}")
+print("💸 Confirmar la compra?(yes/no)")
+if input() == "yes":
+    customer.cart.check_out()
 
-            print("😭 買い物を終了しますか？(yes/no)")
-            end_shopping = input() == "yes"
+print("୨୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈Resultado┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨୧")
+print(f"️🛍️ Propuedad de {customer.name}")
+customer.show_items()
+print(f"😱👛 Saldo en la cartera de {customer.name}: {customer.wallet.balance}")
 
-        print("💸 購入を確定しますか？(yes/no)")
-        if input() == "yes":
-            customer.cart.check_out()
+print(f"📦Disponible de {seller.name}")
+seller.show_items()
+print(f"😻👛 Saldo en la cartera de {seller.name}: {seller.wallet.balance}")
 
-        print("୨୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈結果┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨୧")
-        print(f"️🛍️ ️{customer.name}の所有物")
-        customer.show_items()
-        print(f"😱👛 {customer.name}のウォレット残高: {customer.wallet.balance}")
+print("🛒 Contenido del carrito")
+customer.cart.show_items()
+print(f"🌚 Cantidad Total: {customer.cart.total_amount()}")
 
-        print(f"📦 {seller.name}の在庫状況")
-        seller.show_items()
-        print(f"😻👛 {seller.name}のウォレット残高: {seller.wallet.balance}")
-
-        print("🛒 カートの中身")
-        customer.cart.show_items()
-        print(f"🌚 合計金額: {customer.cart.total_amount()}")
-
-        print("🎉 終了")
-
-# Crear una instancia de Shopping para iniciar el proceso
-shopping =
+print("🎉 Fin")
