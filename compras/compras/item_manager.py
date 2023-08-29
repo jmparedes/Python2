@@ -22,7 +22,7 @@ def show_items(self):   # 自身の所有するItemインスタンスの在庫�
     table_data = []
     for stock in _stock(self):
         table_data.append([stock['number'], stock['label']['name'], stock['label']['price'], len(stock['items'])])
-    print(tabulate(table_data, headers=["番号", "商品名", "金額", "数量"], tablefmt="grid"))    # tabulateモジュールを使ってテーブル形式で結果を出力
+    print(tabulate(table_data, headers=["number", "product name", "amount", "quanty"], tablefmt="grid"))    # tabulateモジュールを使ってテーブル形式で結果を出力
 
 def _stock(self):   # 自身の所有するItemインスタンスの在庫状況を返します。
     item_ls = self.items_list()
