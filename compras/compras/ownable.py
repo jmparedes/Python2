@@ -1,4 +1,2 @@
-# ownable.py
-
-def set_owner(item, owner):
-    item.owner = owner
+def set_owner(self, owner):
+    self.owner = owner

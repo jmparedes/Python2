@@ -1,14 +1,14 @@
+from ownable import set_owner
 class Cart:
-    
-    def __init__(self, owner):
-        self.owner = owner
-        self.items = []
+    from item_manager import show_items
 
-    def set_owner(self, owner):
-        self.owner = owner
+    def __init__(self, owner):
+        self.set_owner(owner)
+        self.items = []
 
     def items_list(self):
         return self.items
+
     def add(self, item):
         self.items.append(item)
 
@@ -17,17 +17,31 @@ class Cart:
         for item in self.items:
             price_list.append(item.price)
         return sum(price_list)
-
+    def set_owner(self, owner):
+        self.owner = owner
     def check_out(self):
         if self.owner.wallet.balance < self.total_amount():
-            total_price = self.total_amount()
-            if total_price > 0:
-                cart_owner = self.items[0].owner  # Propietario del carrito (asumiendo que todos los artículos tienen el mismo propietario)
-                for item in self.items:
-                    item.owner.wallet.withdraw(item.price)  # Retirar el precio del artículo del monedero del propietario del artículo
-                    item.owner = cart_owner  # Transferir la propiedad al propietario del carrito
-                self.items = []  # Vaciar el carrito después de la compra
-    def show_items(self):
+            raise ValueError("Saldo insuficiente en la billetera del propietario para el pago.")
+
         for item in self.items:
-            print(item.label())  
-                
+            # Transferir el precio del artículo desde la billetera del propietario del carrito a la billetera del propietario del artículo.
+            self.owner.wallet.balance -= item.price
+            item.owner.wallet.balance += item.price
+
+            # Transferir la propiedad del artículo al propietario del carrito.
+            item.owner = self.owner
+
+        # Vaciar el carrito al borrar la lista de artículos.
+        self.items = []
+            
+
+        # Al codificar el método check_out, se debe eliminar PASS.
+        # Requisito.
+        # - el precio de compra de todos los artículos del contenido del carrito (Cart#items) se transfiere del monedero del propietario del carrito al monedero del propietario del artículo.
+        # - Los derechos de propiedad de todos los artículos del contenido del carrito (Cart#items) se transferirán al propietario del carrito.
+        # - El contenido del carrito (Cart#items) debe estar vacío.
+        # Consejo.
+        # - Cartera del propietario del carrito ==> self.owner.wallet
+        # - Cartera del propietario del artículo ==> item.owner.wallet
+        # - Que el dinero sea transferido ==> (?) retirando esa cantidad del monedero del (?).), lo que significa depositar esa cantidad en el monedero del
+        # - Los derechos de propietario del artículo se transfieren al propietario del carrito ==> Reescritura de propietario (item.owner = ?)

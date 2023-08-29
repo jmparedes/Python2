@@ -6,13 +6,15 @@ class Item:
     def __init__(self, name, price, owner=None):
         self.name = name
         self.price = price
-        set_owner(self, owner)  # Llamada correcta a la función set_owner
+        self.set_owner(owner)
+        # Cuando se crea una instancia de Item, la instancia de Item (self) se almacena en una variable de clase llamada insntances.
         Item.instances.append(self)
 
     def label(self):
         return {"name": self.name, "price": self.price}
-
+    def set_owner(self, owner):
+        self.owner = owner
     @staticmethod
-    
     def item_all():
+        # Devuelve instancias ==> Esto significa que Item.item_all() devuelve todas las instancias de Item creadas hasta el momento.
         return Item.instances
